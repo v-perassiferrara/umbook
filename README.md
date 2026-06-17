@@ -21,7 +21,7 @@ Cubre los casos de uso **UC-1 Registrarse**, **UC-2 Iniciar Sesión** y **UC-7 B
 ## Estructura del proyecto
 
 ```
-4) Implementación/
+umbook/
 ├── umbook-backend/       <- Spring Boot
 │   └── src/main/java/com/umbook/backend/
 │       ├── config/       <- SecurityConfig (CORS + BCrypt)
@@ -45,21 +45,15 @@ Cubre los casos de uso **UC-1 Registrarse**, **UC-2 Iniciar Sesión** y **UC-7 B
 
 ---
 
-## Formas de correr el proyecto
-
-Hay dos opciones: **Docker** (recomendado, no requiere instalar nada más que Docker) o **local** (requiere Java, Maven, Node y MySQL instalados).
-
----
-
-## Opción A — Docker (recomendado)
+## Correr el proyecto — Docker
 
 ### Requisito
 
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/) instalado y corriendo.
+- Docker instalado y funcionando.
 
 ### Levantar todo
 
-Desde la carpeta `4) Implementación/` (donde está el `docker-compose.yml`):
+Desde la carpeta `umbook/` (donde está el `docker-compose.yml`):
 
 ```bash
 docker compose up --build
@@ -97,144 +91,6 @@ docker compose up --build
 
 ---
 
-## Opción B — Local (sin Docker)
-
-### Requisitos
-
-- Java 21
-- Maven 3.9+
-- Node.js 22+
-- MySQL 8.4 instalado localmente
-
----
-
-## Cómo correr el proyecto (Opción B — local)
-
-Abrir **tres terminales**. Cada una corre una cosa.
-
----
-
-### Terminal 1 — MySQL
-
-Iniciar el servidor de MySQL (por ejemplo, como servicio o ejecutando el daemon):
-```bash
-sudo systemctl start mysql
-```
-o:
-```bash
-mysqld
-```
-
-Verificar que esté activo (esperar unos segundos antes):
-```bash
-mysql -u root -proot -e "SELECT 1;"
-```
-
-Si responde con `1`, MySQL está listo. Si dice `Can't connect`, esperar unos segundos y reintentar.
-
-La base de datos `umbook_db` y la tabla `usuarios` se crean automáticamente cuando el backend inicia por primera vez.
-
----
-
-### Terminal 2 — Backend (Spring Boot)
-
-```bash
-cd umbook-backend
-mvn spring-boot:run
-```
-
-Esperar hasta ver en consola:
-
-```
-Started UmBookApplication in X.XXX seconds
-```
-
-Queda disponible en `http://localhost:8080`.
-
-Si falla con **"Port 8080 already in use"**, hay un proceso Java anterior colgado. Matarlo y reintentar:
-```bash
-kill -9 $(lsof -t -i:8080)
-```
-
----
-
-### Terminal 3 — Frontend (Angular)
-
-```bash
-cd umbook-frontend
-npx @angular/cli@18 serve
-```
-
-Esperar hasta ver:
-
-```
-Application bundle generation complete.
-Local:   http://localhost:4200/
-```
-
-Abrir `http://localhost:4200` en el navegador.
-
-> Usar siempre `npx @angular/cli@18` con la versión explícita. `@angular/cli@latest` puede requerir una versión de Node más reciente y fallar.
-
----
-
-## Orden de inicio obligatorio
-
-```
-1. MySQL    ->  esperar hasta que SELECT 1; devuelva resultado
-2. Backend  ->  esperar hasta "Started UmBookApplication"
-3. Frontend ->  abrir http://localhost:4200
-```
-
-No iniciar el backend antes de que MySQL esté activo o fallará con error de conexión.
-
----
-
-## Apagar todo y resetear desde cero
-
-### Apagar
-
-**Matar el backend y el frontend:** `Ctrl+C` en cada terminal.
-
-**Matar MySQL:**
-Si se inició como servicio:
-```bash
-sudo systemctl stop mysql
-```
-Si se inició como daemon:
-```bash
-killall mysqld
-```
-
-Verificar que no quede nada corriendo:
-```bash
-mysql -u root -proot -e "SELECT 1;"
-```
-Debe decir `Can't connect` si MySQL se apagó bien.
-
----
-
-### Resetear la base de datos (borrar todos los datos)
-
-Con MySQL activo, conectarse y borrar la base:
-```bash
-mysql -u root -proot -e "DROP DATABASE IF EXISTS umbook_db;"
-```
-
-La próxima vez que se levante el backend, `umbook_db` y la tabla `usuarios` se recrean automáticamente vacías.
-
----
-
-### Empezar desde cero como si clonaran el repo
-
-1. Apagar todo (ver arriba)
-2. Borrar la base de datos (ver arriba)
-3. Arrancar MySQL, backend y frontend en ese orden (ver "Cómo correr el proyecto")
-
-No hace falta tocar ningún archivo de código. El backend recrea el schema solo.
-
----
-
 ## Endpoints REST
 
 | Método | Endpoint | Caso de uso | Descripción |
@@ -248,7 +104,7 @@ No hace falta tocar ningún archivo de código. El backend recrea el schema solo
 ## Flujo de demo
 
 ```
-1. Ir a http://localhost:4200  ->  redirige a /login
+1. Ir a http://localhost/      ->  redirige a /login
 2. Click en "Registrate"       ->  completar el formulario y crear cuenta
 3. Iniciar sesión              ->  con el email y contraseña registrados
 4. Dashboard                   ->  buscar usuarios por nombre y/o apellido
