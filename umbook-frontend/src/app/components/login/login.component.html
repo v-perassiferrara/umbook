@@ -1,0 +1,43 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <h1>UMBook</h1>
+      <p>Red social universitaria</p>
+    </div>
+
+    <div *ngIf="errorMsg" class="alert alert-error">{{ errorMsg }}</div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input id="email" type="email" formControlName="email"
+               [class.invalid]="esInvalido('email')"
+               placeholder="juan@mail.com"
+               autocomplete="email">
+        <p class="field-error" *ngIf="esInvalido('email')">
+          Ingresá un email válido.
+        </p>
+      </div>
+
+      <div class="form-group">
+        <label for="contrasena">Contraseña</label>
+        <input id="contrasena" type="password" formControlName="contrasena"
+               [class.invalid]="esInvalido('contrasena')"
+               placeholder="Tu contraseña"
+               autocomplete="current-password">
+        <p class="field-error" *ngIf="esInvalido('contrasena')">
+          La contraseña es requerida.
+        </p>
+      </div>
+
+      <button type="submit" class="btn-primary" [disabled]="loading">
+        {{ loading ? 'Ingresando...' : 'Iniciar sesión' }}
+      </button>
+    </form>
+
+    <p class="auth-footer">
+      ¿No tenés cuenta? <a routerLink="/register">Registrate</a>
+    </p>
+  </div>
+</div>

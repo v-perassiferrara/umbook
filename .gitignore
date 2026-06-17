@@ -1,0 +1,42 @@
+# Compiled Maven output
+**/target/
+*.class
+
+# Package Files
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# IDEs and Editors
+/.idea/
+*.iml
+*.ipr
+*.iws
+.classpath
+.project
+.settings/
+.factorypath
+.vscode/
+.history/
+
+# OS/System files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+.directory
+
+# Logs and databases
+*.log
+*.sqlite
+
+# Local configuration files
+.env
+.env.local
+.env.*.local

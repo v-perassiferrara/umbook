@@ -1,0 +1,60 @@
+<div class="dashboard">
+  <!-- Navbar -->
+  <nav class="navbar">
+    <span class="navbar-brand">UMBook</span>
+    <div class="navbar-user">
+      <span>Hola, <strong>{{ usuarioActual?.nombre }}</strong></span>
+      <button class="btn-logout" (click)="logout()">Cerrar sesión</button>
+    </div>
+  </nav>
+
+  <!-- Content -->
+  <div class="dashboard-content">
+
+    <!-- Search card -->
+    <div class="search-card">
+      <h2>Buscar usuarios</h2>
+
+      <div *ngIf="errorMsg" class="alert alert-error" style="margin-bottom: 1rem;">
+        {{ errorMsg }}
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="buscar()" novalidate>
+        <div class="search-row">
+          <div class="form-group" style="flex: 1;">
+            <label for="busqueda">Nombre, apellido o nombre de usuario</label>
+            <input id="busqueda" type="text" formControlName="busqueda"
+                   placeholder="Ej: Juan, Pérez, @jperez...">
+          </div>
+          <button type="submit" class="btn-search" [disabled]="loading">
+            {{ loading ? 'Buscando...' : 'Buscar' }}
+          </button>
+          <button type="button" class="btn-secondary" (click)="limpiar()"
+                  *ngIf="buscado" style="align-self: flex-end;">
+            Limpiar
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Results -->
+    <div class="results-section" *ngIf="buscado">
+      <p class="results-header" *ngIf="resultados.length > 0">
+        {{ resultados.length }} usuario{{ resultados.length !== 1 ? 's' : '' }} encontrado{{ resultados.length !== 1 ? 's' : '' }}
+      </p>
+
+      <div *ngIf="sinResultados" class="empty-state">
+        No se encontraron usuarios con el criterio ingresado.
+      </div>
+
+      <div class="user-card" *ngFor="let usuario of resultados">
+        <div class="user-avatar">{{ inicialUsuario(usuario) }}</div>
+        <div class="user-info">
+          <p class="user-name">{{ usuario.nombre }} {{ usuario.apellido }}</p>
+          <p class="user-handle">&#64;{{ usuario.nombreUsuario }}</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

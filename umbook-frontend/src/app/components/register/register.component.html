@@ -1,0 +1,83 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <h1>UMBook</h1>
+      <p>Creá tu cuenta</p>
+    </div>
+
+    <div *ngIf="errorMsg" class="alert alert-error">{{ errorMsg }}</div>
+    <div *ngIf="successMsg" class="alert alert-success">{{ successMsg }}</div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="nombre">Nombre</label>
+          <input id="nombre" type="text" formControlName="nombre"
+                 [class.invalid]="esInvalido('nombre')"
+                 placeholder="Juan">
+          <p class="field-error" *ngIf="esInvalido('nombre')">
+            Nombre requerido (mín. 2 caracteres).
+          </p>
+        </div>
+
+        <div class="form-group">
+          <label for="apellido">Apellido</label>
+          <input id="apellido" type="text" formControlName="apellido"
+                 [class.invalid]="esInvalido('apellido')"
+                 placeholder="Pérez">
+          <p class="field-error" *ngIf="esInvalido('apellido')">
+            Apellido requerido (mín. 2 caracteres).
+          </p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input id="email" type="email" formControlName="email"
+               [class.invalid]="esInvalido('email')"
+               placeholder="juan@mail.com">
+        <p class="field-error" *ngIf="esInvalido('email')">
+          Ingresá un email válido.
+        </p>
+      </div>
+
+      <div class="form-group">
+        <label for="nombreUsuario">Nombre de usuario</label>
+        <input id="nombreUsuario" type="text" formControlName="nombreUsuario"
+               [class.invalid]="esInvalido('nombreUsuario')"
+               placeholder="jperez">
+        <p class="field-error" *ngIf="esInvalido('nombreUsuario')">
+          Nombre de usuario requerido (mín. 3 caracteres).
+        </p>
+      </div>
+
+      <div class="form-group">
+        <label for="contrasena">Contraseña</label>
+        <input id="contrasena" type="password" formControlName="contrasena"
+               [class.invalid]="esInvalido('contrasena')"
+               placeholder="Mínimo 8 caracteres">
+        <p class="field-error" *ngIf="esInvalido('contrasena')">
+          La contraseña debe tener al menos 8 caracteres.
+        </p>
+      </div>
+
+      <div class="form-group">
+        <label for="fechaNacimiento">Fecha de nacimiento</label>
+        <input id="fechaNacimiento" type="date" formControlName="fechaNacimiento"
+               [class.invalid]="esInvalido('fechaNacimiento')">
+        <p class="field-error" *ngIf="esInvalido('fechaNacimiento')">
+          La fecha de nacimiento es requerida.
+        </p>
+      </div>
+
+      <button type="submit" class="btn-primary" [disabled]="loading">
+        {{ loading ? 'Creando cuenta...' : 'Crear cuenta' }}
+      </button>
+    </form>
+
+    <p class="auth-footer">
+      ¿Ya tenés cuenta? <a routerLink="/login">Iniciá sesión</a>
+    </p>
+  </div>
+</div>
