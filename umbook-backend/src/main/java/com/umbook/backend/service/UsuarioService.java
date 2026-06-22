@@ -46,7 +46,6 @@ public class UsuarioService {
         return UsuarioResponseDTO.from(usuarioRepository.save(usuario));
     }
 
-    @Transactional
     public UsuarioResponseDTO iniciarSesion(LoginRequestDTO dto) {
         Usuario usuario = usuarioRepository.findByEmail(dto.getEmail().trim().toLowerCase())
             .orElseThrow(CredencialesInvalidasException::new);

@@ -49,10 +49,18 @@
 
       <div class="user-card" *ngFor="let usuario of resultados">
         <div class="user-avatar">{{ inicialUsuario(usuario) }}</div>
-        <div class="user-info">
+        <div class="user-info" style="flex: 1;">
           <p class="user-name">{{ usuario.nombre }} {{ usuario.apellido }}</p>
           <p class="user-handle">&#64;{{ usuario.nombreUsuario }}</p>
         </div>
+        <button class="btn-secondary" 
+                style="margin-left: auto; font-size: 0.85rem; padding: 0.4rem 0.8rem; border-color: var(--primary); color: var(--primary); transition: all 0.2s;"
+                [style.background-color]="solicitudesEnviadas[usuario.id] ? 'var(--primary)' : 'transparent'"
+                [style.color]="solicitudesEnviadas[usuario.id] ? '#fff' : 'var(--primary)'"
+                [disabled]="solicitudesEnviadas[usuario.id]"
+                (click)="solicitarAmistad(usuario)">
+          {{ solicitudesEnviadas[usuario.id] ? '✓ Solicitud enviada' : 'Enviar solicitud' }}
+        </button>
       </div>
     </div>
 

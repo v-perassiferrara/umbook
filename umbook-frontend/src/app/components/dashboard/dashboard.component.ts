@@ -20,6 +20,7 @@ export class DashboardComponent implements OnInit {
   buscado = false;
   loading = false;
   usuarioActual: Usuario | null = null;
+  solicitudesEnviadas: { [id: number]: boolean } = {};
 
   constructor(
     private fb: FormBuilder,
@@ -85,5 +86,9 @@ export class DashboardComponent implements OnInit {
   logout(): void {
     localStorage.removeItem('umbook_user');
     this.router.navigate(['/login']);
+  }
+
+  solicitarAmistad(u: Usuario): void {
+    this.solicitudesEnviadas[u.id] = true;
   }
 }

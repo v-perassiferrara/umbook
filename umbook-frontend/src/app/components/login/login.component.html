@@ -31,7 +31,7 @@
         </p>
       </div>
 
-      <button type="submit" class="btn-primary" [disabled]="loading">
+      <button type="submit" class="btn-primary" [disabled]="loading || isBlocked">
         {{ loading ? 'Ingresando...' : 'Iniciar sesión' }}
       </button>
     </form>
