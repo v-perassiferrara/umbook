@@ -12,14 +12,14 @@ classDiagram
     %% ─────────────────────────────────────────────
 
     class UsuarioController {
-        <<Controller>>
+        <<Controller, Singleton>>
         +registrar(dto: RegistroRequestDTO) ResponseEntity~UsuarioResponseDTO~
         +login(dto: LoginRequestDTO) ResponseEntity~UsuarioResponseDTO~
         +buscar(q: String) ResponseEntity~List~UsuarioResponseDTO~~
     }
 
     class UsuarioService {
-        <<Service>>
+        <<Service, Singleton>>
         +registrar(dto: RegistroRequestDTO) UsuarioResponseDTO
         +iniciarSesion(dto: LoginRequestDTO) UsuarioResponseDTO
         +buscarUsuarios(termino: String) List~UsuarioResponseDTO~
@@ -27,7 +27,7 @@ classDiagram
     }
 
     class UsuarioRepository {
-        <<Repository>>
+        <<Repository, Singleton>>
         +findByEmail(email: String) Optional~Usuario~
         +findByNombreUsuario(nombreUsuario: String) Optional~Usuario~
         +existsByEmail(email: String) boolean

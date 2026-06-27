@@ -6,9 +6,9 @@ sequenceDiagram
     actor U as Usuario
     participant UI as LoginComponent (Angular)
     participant SVC as UserService (Angular)
-    participant C as UsuarioController (Spring)
-    participant S as UsuarioService (Spring)
-    participant R as UsuarioRepository (JPA)
+    participant C as <<singleton>><br/>UsuarioController (Spring)
+    participant S as <<singleton>><br/>UsuarioService (Spring)
+    participant R as <<singleton>><br/>UsuarioRepository (JPA)
 
     %% Camino Básico
     Note over U, R: Camino Básico - Inicio de Sesión Exitoso
@@ -26,7 +26,7 @@ sequenceDiagram
         Note over S: passwordEncoder.matches(contrasena, hash) == true
         S ->> S: setIntentosFallidos(0), setBloqueadoHasta(null)
         S ->> R: save(Usuario)
-        R -->> S: Usuario guardado
+        R -->> S: Usuario
         S -->> C: UsuarioResponseDTO
         C -->> SVC: 200 OK: UsuarioResponseDTO
         SVC -->> UI: Observable: usuario
@@ -35,7 +35,7 @@ sequenceDiagram
     else email no registrado
         R -->> S: Optional vacío
         Note over S: Lanza CredencialesInvalidasException
-        S -->> C: CredencialesInvalidasException interceptada
+        S -->> C: CredencialesInvalidasException
         Note over C: GlobalExceptionHandler.handleCredencialesInvalidas()
         C -->> SVC: 401 Unauthorized: Las credenciales ingresadas no son válidas.
         SVC -->> UI: Observable: error
@@ -59,7 +59,7 @@ sequenceDiagram
     R -->> S: Usuario
     Note over S: isActivo() == false
     Note over S: Lanza UsuarioDeshabilitadoException
-    S -->> C: UsuarioDeshabilitadoException interceptada
+    S -->> C: UsuarioDeshabilitadoException
     Note over C: GlobalExceptionHandler.handleUsuarioDeshabilitado()
     C -->> SVC: 403 Forbidden: Tu cuenta ha sido deshabilitada.
     SVC -->> UI: Observable: error
@@ -77,7 +77,7 @@ sequenceDiagram
     S ->> S: registrarIntentoFallido()<br/>intentosFallidos = intentosFallidos + 1
     S ->> R: save(Usuario)
     Note over S: Lanza CredencialesInvalidasException
-    S -->> C: CredencialesInvalidasException interceptada
+    S -->> C: CredencialesInvalidasException
     Note over C: GlobalExceptionHandler.handleCredencialesInvalidas()
     C -->> SVC: 401 Unauthorized: Las credenciales ingresadas no son válidas.
     SVC -->> UI: Observable: error
@@ -96,7 +96,7 @@ sequenceDiagram
     S ->> S: registrarIntentoFallido()<br/>intentosFallidos = 10<br/>setBloqueadoHasta(now + 1 hora)
     S ->> R: save(Usuario)
     Note over S: Lanza CredencialesInvalidasException
-    S -->> C: CredencialesInvalidasException interceptada
+    S -->> C: CredencialesInvalidasException
     C -->> SVC: 401 Unauthorized
     SVC -->> UI: Observable: error
     Note over UI: intentos locales = 10<br/>guarda blocked_until = Date.now() + 3600000 en localStorage
@@ -112,7 +112,7 @@ sequenceDiagram
     R -->> S: Usuario
     Note over S: bloqueadoHasta != null &&<br/>bloqueadoHasta.isAfter(LocalDateTime.now())
     Note over S: Lanza UsuarioBloqueadoException
-    S -->> C: UsuarioBloqueadoException interceptada
+    S -->> C: UsuarioBloqueadoException
     Note over C: GlobalExceptionHandler.handleUsuarioBloqueado()
     C -->> SVC: 429 Too Many Requests: Tu cuenta fue bloqueada.
     SVC -->> UI: Observable: error

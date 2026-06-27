@@ -6,9 +6,9 @@ sequenceDiagram
     actor U as Usuario
     participant UI as RegisterComponent (Angular)
     participant SVC as UserService (Angular)
-    participant C as UsuarioController (Spring)
-    participant S as UsuarioService (Spring)
-    participant R as UsuarioRepository (JPA)
+    participant C as <<singleton>><br/>UsuarioController (Spring)
+    participant S as <<singleton>><br/>UsuarioService (Spring)
+    participant R as <<singleton>><br/>UsuarioRepository (JPA)
 
     %% Camino Básico
     Note over U, R: Camino Básico - Registro Exitoso
@@ -24,7 +24,7 @@ sequenceDiagram
     R -->> S: false
     Note over S: passwordEncoder.encode(contrasena) → hash BCrypt
     S ->> R: save(Usuario)
-    R -->> S: Usuario persistido con id generado
+    R -->> S: Usuario
     S -->> C: UsuarioResponseDTO
     C -->> SVC: 201 Created: UsuarioResponseDTO
     SVC -->> UI: Observable: usuario
@@ -46,7 +46,7 @@ sequenceDiagram
     S ->> R: existsByEmail(email)
     R -->> S: true
     Note over S: Lanza EmailDuplicadoException
-    S -->> C: EmailDuplicadoException interceptada
+    S -->> C: EmailDuplicadoException
     Note over C: GlobalExceptionHandler.handleEmailDuplicado()
     C -->> SVC: 409 Conflict: El email ya se encuentra registrado.
     SVC -->> UI: Observable: error
@@ -64,7 +64,7 @@ sequenceDiagram
     S ->> R: existsByNombreUsuario(nombreUsuario)
     R -->> S: true
     Note over S: Lanza NombreUsuarioDuplicadoException
-    S -->> C: NombreUsuarioDuplicadoException interceptada
+    S -->> C: NombreUsuarioDuplicadoException
     Note over C: GlobalExceptionHandler.handleNombreUsuarioDuplicado()
     C -->> SVC: 409 Conflict: El nombre de usuario ya se encuentra registrado.
     SVC -->> UI: Observable: error
