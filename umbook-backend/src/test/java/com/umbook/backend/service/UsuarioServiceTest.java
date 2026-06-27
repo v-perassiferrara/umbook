@@ -89,7 +89,7 @@ class UsuarioServiceTest {
     }
 
     @Test
-    @DisplayName("Nombre de usuario duplicado impide el registro")
+    @DisplayName("CP-20-06: Nombre de usuario duplicado impide el registro")
     void registrar_nombreUsuarioDuplicado_lanzaExcepcion() {
         when(usuarioRepository.existsByEmail(anyString())).thenReturn(false);
         when(usuarioRepository.existsByNombreUsuario("jperez")).thenReturn(true);
@@ -138,7 +138,7 @@ class UsuarioServiceTest {
     }
 
     @Test
-    @DisplayName("Usuario deshabilitado no puede iniciar sesión")
+    @DisplayName("CP-21-07: Usuario deshabilitado no puede iniciar sesión")
     void login_usuarioDeshabilitado_lanzaExcepcion() {
         usuarioGuardado.setActivo(false);
         LoginRequestDTO dto = loginDTO("juan@mail.com", "password123");
@@ -149,7 +149,7 @@ class UsuarioServiceTest {
     }
 
     @Test
-    @DisplayName("Usuario bloqueado no puede iniciar sesión")
+    @DisplayName("CP-21-04 (Efecto): Usuario bloqueado no puede iniciar sesión")
     void login_usuarioBloqueado_lanzaExcepcion() {
         usuarioGuardado.setIntentosFallidos(10);
         usuarioGuardado.setBloqueadoHasta(LocalDateTime.now().plusMinutes(30));
@@ -161,7 +161,7 @@ class UsuarioServiceTest {
     }
 
     @Test
-    @DisplayName("Al llegar a 10 intentos fallidos, se bloquea la cuenta")
+    @DisplayName("CP-21-04: Al llegar a 10 intentos fallidos, se bloquea la cuenta")
     void login_10intentosFallidos_bloqueaCuenta() {
         usuarioGuardado.setIntentosFallidos(9);
         LoginRequestDTO dto = loginDTO("juan@mail.com", "wrongpass");
