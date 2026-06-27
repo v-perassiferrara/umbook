@@ -1,4 +1,4 @@
-# Diagrama de Secuencia de Diseño: CU-2 Iniciar Sesión (v2)
+# Diagrama de Secuencia de Diseño: CU-2 Iniciar Sesión
 
 ```mermaid
 sequenceDiagram

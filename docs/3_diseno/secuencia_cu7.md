@@ -1,4 +1,4 @@
-# Diagrama de Secuencia de Diseño: CU-7 Buscar Usuarios (v2)
+# Diagrama de Secuencia de Diseño: CU-7 Buscar Usuarios
 
 ```mermaid
 sequenceDiagram

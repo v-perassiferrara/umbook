@@ -1,4 +1,4 @@
-# Diagrama de Secuencia de Diseño: CU-1 Registrarse (v2)
+# Diagrama de Secuencia de Diseño: CU-1 Registrarse
 
 ```mermaid
 sequenceDiagram

@@ -1,4 +1,4 @@
-# Diagrama de Clases de Diseño — Frontend (Angular) (v2)
+# Diagrama de Clases de Diseño — Frontend (Angular)
 
 > Solo se documentan las clases implementadas.
 
